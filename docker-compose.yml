@@ -1,0 +1,26 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  dockercomposedemo:
+    image: dockercomposedemo
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 2200:80
+    environment:
+      DBServer : sqldockerimage
+      DBPort : 1433
+      DBDatabase : dbProduct
+      DBUser : sa
+      DBPassword : 1Secure*Password1
+
+  sqldockerimage:
+    image: abi3/customsqlimage:latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD : "1Secure*Password1"
+    ports:
+      - "1433:1433"
